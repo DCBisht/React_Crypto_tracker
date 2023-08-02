@@ -109,16 +109,10 @@ const darkTheme = createTheme({
   },
 });
 
-function Header() {
+function Header({user , setUser}) {
   const classes = useStyles();
-  const { currency, setCurrency, user, setUser } = CryptoState();
-
+  const { currency, setCurrency } = CryptoState();
   const history = useHistory();
-
-  const handleLogout = () => {
-    // Log out user and update user state
-    setUser(null);
-  };
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -149,7 +143,7 @@ function Header() {
             {user ? (
               <>
                 <Button color="inherit" onClick={() => history.push('/profile')}>Profile</Button>
-                <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                <Button color="inherit" onClick={() => setUser(null)}>Logout</Button>
               </>
             ) : (
               <Button color="inherit" onClick={() => history.push('/signup')}>Sign Up</Button>

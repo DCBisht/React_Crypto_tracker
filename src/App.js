@@ -4,7 +4,11 @@ import "./App.css";
 import { BrowserRouter, Route } from "react-router-dom";
 import CoinPage from "./Pages/CoinPage";
 import Header from "./components/Header";
-import Signup from "./components/Signup";
+import SignIn from "./signIn/SignIn";
+import SignUp from "./signOut/SignUp";
+import { getDatabase, ref, set } from "firebase/database";
+import { useState } from "react";
+
 
 const useStyles = makeStyles(() => ({
   App: {
@@ -16,15 +20,18 @@ const useStyles = makeStyles(() => ({
 }));
 
 function App() {
+  const [user , setUser] = useState(null);
+  console.log(user);
   const classes = useStyles();
-
+  const database = getDatabase();
   return (
     <BrowserRouter>
       <div className={classes.App}>
-        <Header />
+        <Header user={user} setUser={setUser}/>
         <Route path="/" component={Homepage} exact />
         <Route path="/coins/:id" component={CoinPage} exact />
-        <Route path="/signup" component={Signup} exact />
+        <Route path='/login' render={(props) => <SignIn setUser={setUser} {...props}/>}></Route>
+        <Route path='/signup' render={(props) => <SignUp setUser={setUser} {...props}/>}></Route>
       </div>
     </BrowserRouter>
   );
